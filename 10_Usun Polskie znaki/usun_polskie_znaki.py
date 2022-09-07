@@ -2,7 +2,9 @@
 import os
 
 
-usun_to
+# usun_to
+
+# to też usuń
 
 input_dir = os.getcwd()
 
