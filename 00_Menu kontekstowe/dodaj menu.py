@@ -1,6 +1,7 @@
 if __name__ == '__main__':
     from context_menu import menus
     import sys
+    import os
     
     try:
         menus.removeMenu('mgld_pomoc', 'DIRECTORY_BACKGROUND')
@@ -22,10 +23,11 @@ if __name__ == '__main__':
     }
 
     # tu podać lokalizację skryptów
-    scr_loc='E:\\Python\\05_Menu kontekstowe\\'
+    # scr_loc='E:\\Python\\05_Menu kontekstowe\\'
+    scr_loc=os.getcwd()
 
     for i,j in scripts.items():
-        scripts[i]='{}{}'.format(scr_loc,j)
+        scripts[i]='{}\\{}'.format(scr_loc,j)
 
 
 
