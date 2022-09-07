@@ -1,6 +1,9 @@
 #bmystek
 import os
 
+
+usun_to
+
 input_dir = os.getcwd()
 
 # lista znaków do zmiany
