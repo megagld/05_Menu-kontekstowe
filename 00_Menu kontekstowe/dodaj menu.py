@@ -17,7 +17,7 @@ if __name__ == '__main__':
         "07_Usuń nazwy z rysunków ogólnych (tylko pliki pdf)":      "07_Usun nazwy z rys ogolnych\\usun_nazwy.py",
         "08_Przenieś pdf'y":                                        "08_Przenies pdfy do podkatalogow\\przenies_pdfy.py",
         "09_Usuń pliki tymczasowe":                                 "09_Usun pliki tymczasowe\\usun_pliki_tymczasowe.py",
-        "10_Usun Polskie znaki":                                    "10_Usun Polskie znaki\\usun_polskie_znaki.py"
+        "10_Usun polskie znaki":                                    "10_Usun polskie znaki\\usun_polskie_znaki.py"
 
 
     }
