@@ -1,5 +1,4 @@
 #bmystek
-from pathlib import Path
 import os
 
 # usuwa wszystkie pliki z poniższymi rozszerzeniami ze wszystkich podkatalogów
