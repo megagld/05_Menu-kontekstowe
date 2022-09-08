@@ -2,6 +2,7 @@ if __name__ == '__main__':
     from context_menu import menus
     import sys
     import os
+    import json
     
     try:
         menus.removeMenu('mgld_pomoc', 'DIRECTORY_BACKGROUND')
@@ -20,9 +21,16 @@ if __name__ == '__main__':
         "10_Usun polskie znaki":                                    "10_Usun polskie znaki\\usun_polskie_znaki.py",
         "11_Otwórz wiele dwg":                                      "11_Otworz wiele plikow acad\\otworz_wiele_dwg.py"
 
-
-
     }
+
+    def get_cb_state():
+        # scr_loc=os.getcwd()
+        scr_loc = os.path.dirname(__file__)
+        with open('{}\\{}'.format(scr_loc,'data.json'), 'r') as fp:
+            scripts_state = json.load(fp)
+        return scripts_state
+
+    scripts_st=get_cb_state()
 
     # tu podać lokalizację skryptów
     # scr_loc='E:\\Python\\05_Menu kontekstowe\\'
@@ -35,8 +43,9 @@ if __name__ == '__main__':
 
     cm = menus.ContextMenu('mgld_pomoc', type='DIRECTORY_BACKGROUND')
     for sc_name,script in scripts.items():
-        cm.add_items([
-            menus.ContextCommand(sc_name, command='''"{}" "{}"'''.format(pyt_loc,script)),
-        ])
+        if sc_name in scripts_st.keys() and scripts_st[sc_name]=='1':
+            cm.add_items([
+                menus.ContextCommand(sc_name, command='''"{}" "{}"'''.format(pyt_loc,script)),
+            ])
 
     cm.compile()
