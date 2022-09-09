@@ -6,6 +6,10 @@ def var_states():
     print ('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     for i in scripts_state.keys():
         print(scripts_cb_state[i].get(),':',i)
+
+    scr_loc = os.path.dirname(__file__)
+    os.system('''python "{}\\{}"'''.format(scr_loc,'get_scripts_list.py'))
+
     make_win()
 
 # zapisuje stan checboxów do pliku
@@ -52,9 +56,9 @@ def make_win():
     sc_len=len(scripts_state)
     Button(master, text='Quit', command=master.quit).grid(row=sc_len+2, pady=4)
     Button(master, text='Zapisz stan', command=save_state).grid(row=sc_len+3, pady=4)
-    Button(master, text='Odświerz listę skryptów', command=var_states).grid(row=sc_len+4, pady=4)
-    Button(master, text='Dodaj menu', command=add_menu).grid(row=sc_len+5, pady=4)
-    Button(master, text='Usuń menu', command=remove_menu).grid(row=sc_len+6, pady=4)
+    Button(master, text='Odśwież listę skryptów', command=var_states).grid(row=sc_len+4, pady=4)
+    Button(master, text='Dodaj menu kontekstowe', command=add_menu).grid(row=sc_len+5, pady=4)
+    Button(master, text='Usuń menu kontekstowe', command=remove_menu).grid(row=sc_len+6, pady=4)
 
     mainloop()
 

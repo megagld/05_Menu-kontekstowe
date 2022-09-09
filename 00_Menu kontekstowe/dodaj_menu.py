@@ -23,6 +23,8 @@ if __name__ == '__main__':
 
     }
 
+
+
     def get_cb_state():
         # scr_loc=os.getcwd()
         scr_loc = os.path.dirname(__file__)
@@ -30,7 +32,15 @@ if __name__ == '__main__':
             scripts_state = json.load(fp)
         return scripts_state
 
+    # def script_list():
+    #     # scr_loc=os.getcwd()
+    #     scr_loc = os.path.dirname(__file__)
+    #     with open('{}\\{}'.format(scr_loc,'data_scripts.json'), 'r') as fp:
+    #         scripts_list= json.load(fp)
+    #     return scripts_list
+
     scripts_st=get_cb_state()
+    # scripts=script_list()
 
     # tu podać lokalizację skryptów
     # scr_loc='E:\\Python\\05_Menu kontekstowe\\'
