@@ -1,6 +1,6 @@
 import os
 
-acad_loc="C:/Program Files/Autodesk/AutoCAD 2018/acad.exe"
+acad_loc="C:\Program Files\Common Files\Autodesk Shared\AcShellEx\AcLauncher.exe"
 
 input_dir = os.getcwd()
 # input_dir = os.path.dirname(__file__)
