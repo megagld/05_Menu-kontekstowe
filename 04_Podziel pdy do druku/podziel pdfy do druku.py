@@ -4,7 +4,8 @@ import os
 import pdfplumber
 import shutil
 
-input_dir = '{}{}'.format(Path(__file__).parent,'''\\''')
+# input_dir = '{}{}'.format(Path(__file__).parent,'''\\''')
+input_dir = os.getcwd()
 
 # 842 odpowiada 297
 # 1191 odpowiada 420

@@ -59,7 +59,7 @@ def make_win():
     mainloop()
 
 
-scripts_state=get_cb_state()    
+scripts_state=get_cb_state()
 scripts_cb_state=scripts_state.copy()
 
 master = Tk()
