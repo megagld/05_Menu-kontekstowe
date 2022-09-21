@@ -11,20 +11,6 @@ if __name__ == '__main__':
 
     pyt_loc=sys.executable
 
-    scripts={
-        "03_Usun wymiary papieru z nazwy pdf":                      "03_Usun wymiary papieru z nazwy pdf\\usun_wymiary_z_pdf.py",
-        "05_Kopiuj strukturę katalogów":                            "05_Kopiuj strukture katalogow\\kopiuj_strukture_katalogow.py",
-        "06_Dodaj nazwy do rysunków ogólnych (tylko pliki pdf)":    "06_Dodaj nazwy do rys ogolnych\\dodaj_nazwy.py",
-        "07_Usuń nazwy z rysunków ogólnych (tylko pliki pdf)":      "07_Usun nazwy z rys ogolnych\\usun_nazwy.py",
-        "08_Przenieś pdf'y":                                        "08_Przenies pdfy do podkatalogow\\przenies_pdfy.py",
-        "09_Usuń pliki tymczasowe":                                 "09_Usun pliki tymczasowe\\usun_pliki_tymczasowe.py",
-        "10_Usun polskie znaki":                                    "10_Usun polskie znaki\\usun_polskie_znaki.py",
-        "11_Otwórz wiele dwg":                                      "11_Otworz wiele plikow acad\\otworz_wiele_dwg.py"
-
-    }
-
-
-
     def get_cb_state():
         # scr_loc=os.getcwd()
         scr_loc = os.path.dirname(__file__)
@@ -32,27 +18,23 @@ if __name__ == '__main__':
             scripts_state = json.load(fp)
         return scripts_state
 
-    # def script_list():
-    #     # scr_loc=os.getcwd()
-    #     scr_loc = os.path.dirname(__file__)
-    #     with open('{}\\{}'.format(scr_loc,'data_scripts.json'), 'r') as fp:
-    #         scripts_list= json.load(fp)
-    #     return scripts_list
+    def get_sc_list():
+        scr_loc = os.path.dirname(__file__)
+        with open('{}\\{}'.format(scr_loc,'data_scripts.json'), 'r') as fp:
+            scripts_list = json.load(fp)
+        return scripts_list
 
     scripts_st=get_cb_state()
-    # scripts=script_list()
 
-    # tu podać lokalizację skryptów
-    # scr_loc='E:\\Python\\05_Menu kontekstowe\\'
+    scripts_list=get_sc_list()
+    
     scr_loc=os.getcwd()
 
-    for i,j in scripts.items():
-        scripts[i]='{}\\{}'.format(scr_loc,j)
-
-
+    for i,j in scripts_list.items():
+        scripts_list[i]='{}\\{}\\{}'.format(scr_loc,i,j)
 
     cm = menus.ContextMenu('mgld_pomoc', type='DIRECTORY_BACKGROUND')
-    for sc_name,script in scripts.items():
+    for sc_name,script in scripts_list.items():
         if sc_name in scripts_st.keys() and scripts_st[sc_name]=='1':
             cm.add_items([
                 menus.ContextCommand(sc_name, command='''"{}" "{}"'''.format(pyt_loc,script)),
