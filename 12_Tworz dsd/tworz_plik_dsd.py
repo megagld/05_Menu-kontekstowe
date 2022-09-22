@@ -1,5 +1,4 @@
 import os
-import re
 from openpyxl import load_workbook
 from pathlib import Path
 
@@ -54,7 +53,7 @@ PublishSheetMetadata=FALSE
 3DDWFOptions=0 1'''
 
 def pobierz_dane(x):
-    file = '{}\\{}'.format(Path(__file__).parent,x)
+    file = '{}\\{}'.format(input_dir,x)
 
     # Nazwy arkuszy:
     wb=load_workbook(file)
