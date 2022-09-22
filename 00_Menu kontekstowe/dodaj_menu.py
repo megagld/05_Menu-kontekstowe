@@ -41,7 +41,7 @@ if __name__ == '__main__':
                 menus.ContextCommand(sc_name, command='''"{}" "{}"'''.format(pytw_loc,script)),
             ])
 
-    main_loc='{}\\{}\\{}'.format(scr_loc,'00_Menu kontekstowe','main.py')   
+    main_loc='{}\\{}\\{}'.format(scr_loc,'00_Menu kontekstowe','main.pyw')   
 
     cm.add_items([
         menus.ContextCommand('...', command='''"{}" "{}"'''.format(pytw_loc,main_loc)),
