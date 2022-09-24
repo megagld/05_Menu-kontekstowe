@@ -19,7 +19,7 @@ for x in os.listdir(input_pdf_dir):
     if not x.endswith('.pdf'):
         continue
     # określenie obiektu (tomu)
-    tom=re.search('(\d{4,}_.*_M_)(.*)(_.*)',x).group(2)
+    tom=re.search('(\d{4,}_.*_M_)(.*?)(_.*)',x).group(2)
 
     # szukanie katalogu
     for i in tomy:
