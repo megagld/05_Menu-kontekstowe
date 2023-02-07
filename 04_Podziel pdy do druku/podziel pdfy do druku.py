@@ -18,6 +18,8 @@ di={842:'297',
     2382:'841',}
 
 def rou(h):
+    # zaokrągla wysokość pdfa do wartości typowych
+    
     global di
     dims=di.keys()
     for i in dims:
