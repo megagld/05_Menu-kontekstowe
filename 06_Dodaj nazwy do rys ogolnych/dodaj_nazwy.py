@@ -8,14 +8,18 @@ input_dir = os.getcwd()
 ###############################################
 
 rys=[
-    ['_01.01','_01.01 - Zalozenia drogowe'],
-    ['_01.02','_01.02 - Rzut'],
-    ['_01.03','_01.03 - Przekroj podluzny'],
-    ['_01.04','_01.04 - Przekroj poprzeczny'],
-    ['_01','_01 - Zalozenia drogowe'],
-    ['_02','_02 - Rzut'],
-    ['_03','_03 - Przekroj podluzny'],
-    ['_04','_04 - Przekroj poprzeczny']
+    # ['_01.01','_01.01 - Zalozenia drogowe'],
+    # ['_01.02','_01.02 - Rzut'],
+    # ['_01.03','_01.03 - Przekroj podluzny'],
+    # ['_01.04','_01.04 - Przekroj poprzeczny'],
+    ['_01_','_01 - Zalozenia drogowe.'],
+    ['_02_','_02 - Rzut.'],
+    ['_03_','_03 - Przekroj podluzny.'],
+    ['_04_','_04 - Przekroj poprzeczny.'],
+    ['.01_','.01 - Zalozenia drogowe.'],
+    ['.02_','.02 - Rzut.'],
+    ['.03_','.03 - Przekroj podluzny.'],
+    ['.04_','.04 - Przekroj poprzeczny.']
 ]
 
 ###############################################
