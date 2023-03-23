@@ -1,6 +1,6 @@
-certifi==2022.9.14
 cffi==1.15.1
 charset-normalizer==2.1.1
+<<<<<<< HEAD
 colorama==0.4.5
 context-menu==1.2.3
 cryptography==38.0.1
@@ -21,20 +21,36 @@ pdfplumber==0.7.4
 Pillow==9.2.0
 pipreqs==0.4.11
 proglog==0.1.10
+=======
+comtypes==1.1.10
+context-menu==1.2.3
+cryptography==38.0.1
+et-xmlfile==1.1.0
+numpy==1.21.4
+openpyxl==3.0.9
+pandas==1.3.5
+pdfminer.six==20220524
+pdfplumber==0.7.4
+Pillow==9.2.0
+pyautocad==0.2.0
+>>>>>>> 672b33715a1243818c0b7b14361a592ff5e99a00
 pycparser==2.21
-pydantic==1.10.2
 pygame==2.1.2
 PyMsgBox==1.0.9
-PyPDF2==2.10.9
+PyPDF2==1.26.0
 python-dateutil==2.8.2
-pytradfri==11.0.0
-pytz==2022.2.1
-regex==2022.8.17
-requests==2.28.1
+pytz==2021.3
+pywin32==303
+regex==2022.9.13
 six==1.16.0
+<<<<<<< HEAD
 tqdm==4.64.1
 typing_extensions==4.3.0
 urllib3==1.26.12
+=======
+style==1.1.0
+update==0.0.1
+>>>>>>> 672b33715a1243818c0b7b14361a592ff5e99a00
 Wand==0.6.10
-xlrd==2.0.1
-yarg==0.1.9
+winregistry==1.1.1
+xlrd==1.2.0
