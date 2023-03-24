@@ -49,7 +49,10 @@ def make_can(pdf_w,pdf_h):
     global new_pdf
     packet = io.BytesIO()
     can = canvas.Canvas(packet, pagesize=(int(pdf_w),int(pdf_h)))
-    can.drawString(pdf_w-cd_x,cd_y,"DO REALIZACJI")
+
+    can.setFillColorRGB(255,0,0) #kolor czcionki
+    can.setFont("Helvetica", 12) #font i jego wielkość
+    can.drawString(pdf_w-cd_x,cd_y,"DO REALIZACJI") # tekst i jego lokalizacja
     can.save()
     packet.seek(0)
     new_pdf = PdfReader(packet)
@@ -66,9 +69,9 @@ for path,_,files in os.walk(folder_path):
 
                 # odległości do prawego dolnego narożnika
                 if pdf_reader.numPages==1:
-                    cd_x,cd_y=[110,21]
+                    cd_x,cd_y=[110,21] #rysunki
                 else:
-                    cd_x,cd_y=[160,45]
+                    cd_x,cd_y=[160,800] # opisy techniczne
 
                 make_can(pdf_w,pdf_h)
 
