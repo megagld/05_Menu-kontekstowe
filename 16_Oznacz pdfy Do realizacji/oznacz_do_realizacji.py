@@ -71,7 +71,8 @@ for path,_,files in os.walk(folder_path):
                 if pdf_reader.numPages==1:
                     cd_x,cd_y=[110,21] #rysunki
                 else:
-                    cd_x,cd_y=[160,800] # opisy techniczne
+                    cd_x,cd_y=[160,800] # opisy techniczne - wersja dla prawego górnego naroznika
+                    # cd_x,cd_y=[160,55] # opisy techniczne - wersja dla prawego dolnego naroznika
 
                 make_can(pdf_w,pdf_h)
 
