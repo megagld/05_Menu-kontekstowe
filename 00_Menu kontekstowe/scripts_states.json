@@ -1,1 +1,9 @@
+<<<<<<< HEAD
 {"02_Excel_to_Bentley": "0", "03_Usun wymiary papieru z nazwy pdf": "1", "04_Podziel pdy do druku": "1", "05_Kopiuj strukture katalogow": "1", "06_Dodaj nazwy do rys ogolnych": "1", "07_Usun nazwy z rys ogolnych": "1", "08_Przenies pdfy do podkatalogow": "1", "09_Usun pliki tymczasowe": "1", "10_Usun Polskie znaki": "1", "11_Otworz wiele plikow acad": "0", "12_Tworz dsd": "1", "13_Usun znaki non-ASCII": "1", "14_Zuzel": "1", "16_Oznacz pdfy Do realizacji": "1", "01_Obracanie pdf (wy\u015bwietlanie)": "0", "17_Obr\u00f3\u0107 pdfy w lewo": "1", "18_Obr\u00f3\u0107 pdfy w prawo": "1", "19_Znajd\u017a obr\u00f3cone pdfy": "1"}
+=======
+<<<<<<< HEAD
+{"01_Obracanie pdf": "0", "02_Excel_to_Bentley": "0", "03_Usun wymiary papieru z nazwy pdf": "1", "04_Podziel pdy do druku": "0", "05_Kopiuj strukture katalogow": "1", "06_Dodaj nazwy do rys ogolnych": "1", "07_Usun nazwy z rys ogolnych": "1", "08_Przenies pdfy do podkatalogow": "1", "09_Usun pliki tymczasowe": "1", "10_Usun Polskie znaki": "1", "11_Otworz wiele plikow acad": "1", "12_Tworz dsd": "1", "13_Usun znaki non-ASCII": "1", "14_Zuzel": "1", "15_Otworz dwg z txt": "1", "16_Oznacz pdfy Do realizacji": "1"}
+=======
+{"01_Obracanie pdf": "1", "02_Excel_to_Bentley": "1", "03_Usun wymiary papieru z nazwy pdf": "1", "04_Podziel pdy do druku": "1", "05_Kopiuj strukture katalogow": "1", "06_Dodaj nazwy do rys ogolnych": "1", "07_Usun nazwy z rys ogolnych": "1", "08_Przenies pdfy do podkatalogow": "1", "09_Usun pliki tymczasowe": "1", "10_Usun Polskie znaki": "1", "11_Otworz wiele plikow acad": "1", "12_Tworz dsd": "1", "13_Usun znaki non-ASCII": "1", "14_Zuzel": "1", "15_Otworz dwg z txt": "1"}
+>>>>>>> 672b33715a1243818c0b7b14361a592ff5e99a00
+>>>>>>> d12da2e4c865602170a37f7c9ea8ddfd2a43ce18
