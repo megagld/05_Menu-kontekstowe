@@ -1,3 +1,4 @@
+#bmystek
 import os
 from pdfrw import PdfReader
 import shutil
@@ -14,7 +15,7 @@ if not os.path.exists(output_dir_rot):
 if not os.path.exists(output_dir_ok):
     os.makedirs(output_dir_ok)
 
-
+# kopiuje plik do wskazanego katalogu
 def copy_to(pdf,dest):
         pdf_from='{}\\{}'.format(input_dir,pdf)
         pdf_to='{}\\{}'.format(dest,pdf)
