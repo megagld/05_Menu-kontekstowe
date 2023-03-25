@@ -66,6 +66,7 @@ outcome==1.2.0
 packaging==21.3
 pandas==1.4.3
 pdfminer.six==20220524
+PDFNetPython3==9.5.0.post1
 pdfplumber==0.7.4
 pdfrw==0.4
 pep517==0.13.0

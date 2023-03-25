@@ -53,6 +53,9 @@ def make_can(pdf_w,pdf_h):
     can.setFillColorRGB(255,0,0) #kolor czcionki
     can.setFont("Helvetica", 12) #font i jego wielkość
     can.drawString(pdf_w-cd_x,cd_y,"DO REALIZACJI") # tekst i jego lokalizacja
+    # can.drawString(pdf_w-cd_x-50,cd_y,"DO REALIZACJI rew.000") # tekst i jego lokalizacja
+
+    
     can.save()
     packet.seek(0)
     new_pdf = PdfReader(packet)
@@ -70,6 +73,7 @@ for path,_,files in os.walk(folder_path):
                 # odległości do prawego dolnego narożnika
                 if pdf_reader.numPages==1:
                     cd_x,cd_y=[110,21] #rysunki
+                    if "KPEM" in pdf_file:cd_y+=209 # podniesienie napisu dla mniejszych tabelek(nietypowych)
                 else:
                     cd_x,cd_y=[160,800] # opisy techniczne - wersja dla prawego górnego naroznika
                     # cd_x,cd_y=[160,55] # opisy techniczne - wersja dla prawego dolnego naroznika
@@ -78,6 +82,7 @@ for path,_,files in os.walk(folder_path):
 
                 pdf_merged = pdf_reader.pages[0]
                 pdf_merged.merge_page(new_pdf.pages[0])
+                pdf_merged.compress_content_streams()
                 pdf_writer = PdfWriter()
                 
                 for i in range(len(pdf_reader.pages)):
