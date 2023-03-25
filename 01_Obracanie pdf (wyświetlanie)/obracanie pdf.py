@@ -7,11 +7,7 @@ import os
 
 # input_dir = '{}{}'.format(Path(__file__).parent,'''\\''')
 input_dir = os.getcwd()
-<<<<<<< HEAD:01_Obracanie pdf (wyświetlanie)/obracanie pdf.py
 output_dir = input_dir+'''\\output_pdf\\'''
-=======
-output_dir = '{}\\{}'.format(input_dir,'''output_pdf''')
->>>>>>> d12da2e4c865602170a37f7c9ea8ddfd2a43ce18:01_Obracanie pdf/obracanie pdf.py
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 

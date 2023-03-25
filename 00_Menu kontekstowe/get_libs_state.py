@@ -5,7 +5,7 @@ import os
 scr_loc = os.path.dirname(__file__).replace("\\00_Menu kontekstowe","")
 needed_tar_loc= "{}\\00_Menu kontekstowe\\needed_libs.txt".format(scr_loc)
 
-os.system('''pipreqs "{}" --savepath "{}"'''.format(scr_loc,needed_tar_loc))
+os.system('''pipreqs "{}" --encoding=utf8 --savepath "{}"'''.format(scr_loc,needed_tar_loc))
 
 # pobiera listę wymaganych bibliotek
 
