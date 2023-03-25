@@ -1,10 +1,12 @@
 #bmystek
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from os import listdir
+import os
 from pathlib import Path
 
-input_dir = '{}{}'.format(Path(__file__).parent,'''\\''')
-output_dir = '{}{}'.format(Path(__file__).parent,'''\\output_pdf\\''')
+# input_dir = '{}{}'.format(Path(__file__).parent,'''\\''')
+input_dir = os.getcwd()
+output_dir = input_dir+'''\\output_pdf\\'''
 
 Path(output_dir).mkdir(parents=True, exist_ok=True)
 
