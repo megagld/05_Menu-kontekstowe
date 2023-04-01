@@ -52,8 +52,8 @@ def make_can(pdf_w,pdf_h):
 
     can.setFillColorRGB(255,0,0) #kolor czcionki
     can.setFont("Helvetica", 12) #font i jego wielkość
-    can.drawString(pdf_w-cd_x,cd_y,"DO REALIZACJI") # tekst i jego lokalizacja
-    # can.drawString(pdf_w-cd_x-50,cd_y,"DO REALIZACJI rew.000") # tekst i jego lokalizacja
+    # can.drawString(pdf_w-cd_x,cd_y,"DO REALIZACJI") # tekst i jego lokalizacja
+    can.drawString(pdf_w-cd_x-50,cd_y,"DO REALIZACJI rew.000") # tekst i jego lokalizacja
 
     
     can.save()
