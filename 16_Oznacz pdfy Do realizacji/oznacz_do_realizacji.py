@@ -71,7 +71,9 @@ for path,_,files in os.walk(folder_path):
                 pdf_w,pdf_h=pdf_reader.pages[0].mediabox[-2:]
 
                 # odległości do prawego dolnego narożnika
-                if pdf_reader.numPages==1:
+                # w starszym pythonie .pages na pyć Numpages?!
+                # if pdf_reader.numPages==1:
+                if len(pdf_reader.pages)==1:
                     cd_x,cd_y=[110,21] #rysunki
                     if "KPEM" in pdf_file:cd_y+=209 # podniesienie napisu dla mniejszych tabelek(nietypowych)
                 else:
