@@ -1,8 +1,8 @@
-from PyPDF2 import PdfFileMerger
+from PyPDF2 import PdfMerger
 import os
 
 #Create an instance of PdfFileMerger() class
-merger = PdfFileMerger(strict=False)
+merger = PdfMerger(strict=False)
 
 #Create a list with the file paths
 folder_path = os.getcwd()
@@ -18,5 +18,5 @@ for pdf_file in pdf_files:
     merger.append(pdf_file)
 
 #Write out the merged PDF file
-merger.write("{}\\scalone.pdf".format(folder_path))
+merger.write("{}\\_scalone.pdf".format(folder_path))
 merger.close()
