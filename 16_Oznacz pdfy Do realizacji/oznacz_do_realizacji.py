@@ -108,7 +108,7 @@ def run():
 
                     with open(n_file, "wb") as output_file:
                         pdf_writer.write(output_file)
-            update_status(pdf_c,files_c-pdf_c)
+    update_status(pdf_c,files_c-pdf_c)
 
 def update_status(inn_1, inn_2) :
     # wpisuje dane po zakończeniu tworzenia pdfów
