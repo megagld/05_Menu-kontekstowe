@@ -72,7 +72,7 @@ def draw_win():
     Label(master, text="Lista skryptów:").grid(row=0, sticky=W)
 
     # dodaje checkboxy
-    for j,i in enumerate(scripts_states_cb.keys()):
+    for j,i in enumerate(sorted(scripts_states_cb.keys())):
         scripts_states_cb[i] = Variable()
         Checkbutton(master, text=i, variable=scripts_states_cb[i]).grid(row=j+1, sticky=W)
 
