@@ -7,6 +7,7 @@ import shutil
 import os
 import tkinter as tk
 import winsound
+import regex as re
 
 def run():    
     global tekst,new_pdf,status, label7
@@ -103,6 +104,8 @@ def run():
                             pdf_writer.add_page(pdf_reader.pages[i])
 
                     # ściażka dostępu do nowej lokalizacji pliku
+                    if var.get()==1:
+                        pdf_file=remove_rew(pdf_file)
                     n_file='{}\\{}'.format(path, pdf_file)[len(folder_path):]
                     n_file='{}\\_do realizacji\\{}'.format(folder_path,n_file)
 
@@ -130,6 +133,14 @@ def update_status(inn_1, inn_2) :
     except:
         pass
 
+def remove_rew(pdf_file):
+    reg_pat='''(.+)([_.]rew.\d{3})(.pdf)'''
+    x_match=re.match(reg_pat,pdf_file)
+    if x_match:
+        new_name = pdf_file.replace(x_match.group(2),'')
+        return new_name
+    return pdf_file
+
 root= tk.Tk()
 
 canvas1 = tk.Canvas(root, width=450, height=300, relief='raised')
@@ -146,7 +157,9 @@ opisy=['Tekst:','Odległość od prawego dolnego narożnika:',
        '',
        'Alternatywne przesunięcie:',
        'nazwa pliku zawiera:',
-       'odległość [mm x mm]:']
+       'odległość [mm x mm]:',
+       '',
+       'Usuń opis rewizji z nazwy pliku']
 
 for i,j in enumerate(opisy):
     label = tk.Label(root, text=j,anchor="e")
@@ -155,7 +168,11 @@ for i,j in enumerate(opisy):
 
 # Wprowadzenie danych
 
-wejscia=["DO REALIZACJI rew.000",'56x7.5','74x282','KPEM','56x81']
+wejscia=["DO REALIZACJI rew.000",
+         '56x7.5',
+         '74x282',
+         'KPEM',
+         '56x81']
 entry_state={}
 
 for i,j in enumerate(wejscia):
@@ -164,27 +181,32 @@ for i,j in enumerate(wejscia):
     canvas1.create_window(350, 50+20*(i+int(i>0)+2*int(i>2)), width=130, window=tmp)
     entry_state[i]=tmp
 
+# Dodaje checkbox do usuwania rew.z nazwy pliku
+var = tk.IntVar(value=1)
+cbox1=tk.Checkbutton(root,  variable=var)
+canvas1.create_window(300, 230, window=cbox1)
+
 # Wprowadzenie przycisku
    
 button1 = tk.Button(text='Oznacz pdfy', command=run, bg='brown', fg='white', font=('helvetica', 9, 'bold'))
-canvas1.create_window(350, 225, window=button1)
+canvas1.create_window(380, 230, window=button1)
 
 # podsumowanie po zakończeniu
 
 label7 = tk.Label(root, text='',anchor="e")
 label7.config(font=('helvetica', 10, 'bold'),width=10,height=1)
-canvas1.create_window(270, 250, window=label7)
+canvas1.create_window(270, 270, window=label7)
 
 label8 = tk.Label(root, text='',anchor="e")
 label8.config(font=('helvetica', 10, 'bold'),width=10,height=1)
-canvas1.create_window(270, 270, window=label8)
+canvas1.create_window(270, 290, window=label8)
 
 label9 = tk.Label(root, text='',anchor="e")
 label9.config(font=('helvetica', 10, 'bold'),width=30,height=1)
-canvas1.create_window(150, 250, window=label9)
+canvas1.create_window(150, 270, window=label9)
 
 label10 = tk.Label(root, text='',anchor="e")
 label10.config(font=('helvetica', 10, 'bold'),width=30,height=1)
-canvas1.create_window(150, 270, window=label10)
+canvas1.create_window(150, 290, window=label10)
 
 root.mainloop()
