@@ -4,7 +4,6 @@ import io
 from PyPDF2 import PdfReader, PdfWriter
 from reportlab.pdfgen import canvas
 import shutil
-import os
 import tkinter as tk
 import winsound
 import regex as re
