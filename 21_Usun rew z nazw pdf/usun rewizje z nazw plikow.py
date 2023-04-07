@@ -5,7 +5,7 @@ import pymsgbox
 
 folder_path = os.getcwd()
 
-reg_pat='''(.+)(_rew.\d{3})(.pdf)'''
+reg_pat='''(.+)([_.]rew.\d{3})(.pdf)'''
 
 pdf_c=0
 pdf_cd=0
