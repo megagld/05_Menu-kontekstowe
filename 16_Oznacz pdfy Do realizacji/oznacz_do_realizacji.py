@@ -7,6 +7,7 @@ import shutil
 import tkinter as tk
 import winsound
 import regex as re
+from time import time
 
 def run():    
     global tekst,new_pdf,status, label7
@@ -68,6 +69,8 @@ def run():
         packet.seek(0)
         new_pdf = PdfReader(packet)
 
+    start_time = time()
+
     for path,_,files in os.walk(folder_path):
         if '_do realizacji' in path:continue
         else:
@@ -110,22 +113,38 @@ def run():
 
                     with open(n_file, "wb") as output_file:
                         pdf_writer.write(output_file)
-    update_status(pdf_c,files_c-pdf_c)
+    end_time = time()
+    update_status(pdf_c,files_c-pdf_c, start_time,end_time)
 
-def update_status(inn_1, inn_2) :
+def speed_test(delta_time):
+
+    if delta_time > 60:
+        minutes, seconds = delta_time // 60, delta_time % 60
+        return f"{int(minutes)}min {int(seconds)}s"
+    else:
+        return f"{int(delta_time)}s"
+
+
+def update_status(done, inn_2,start_time,end_time) :
+    delta_time = round(end_time - start_time, 3)
     # wpisuje dane po zakończeniu tworzenia pdfów
-    global label7, label8
-    label7.config(text=inn_1,bg='light green')
+    label7.config(text='{}' .format(done),bg='light green')
     label7.update_idletasks()
 
-    label8.config(text=inn_2,bg='light green')
+    label8.config(text='{} ({}s/pdf)' .format(speed_test(delta_time),int(delta_time/done)),bg='light green')
     label8.update_idletasks()
 
-    label9.config(text='Oznaczone pdfy:',bg='light green')
+    label9.config(text=inn_2,bg='light green')
     label9.update_idletasks()
 
-    label10.config(text='Inne pliki w podkatalogach:',bg='light green')
+    label10.config(text='Oznaczone pdfy:',bg='light green')
     label10.update_idletasks()
+
+    label11.config(text='W czasie:',bg='light green')
+    label11.update_idletasks()
+
+    label12.config(text='Inne pliki w podkatalogach:',bg='light green')
+    label12.update_idletasks()
 
     try:
         winsound.PlaySound("beep.wav", winsound.SND_FILENAME)
@@ -142,7 +161,7 @@ def remove_rew(pdf_file):
 
 root= tk.Tk()
 
-canvas1 = tk.Canvas(root, width=450, height=300, relief='raised')
+canvas1 = tk.Canvas(root, width=450, height=330, relief='raised')
 canvas1.pack()
 
 label1 = tk.Label(root, text='Oznacz pdfy "Do realizacji"',anchor="c")
@@ -192,20 +211,28 @@ canvas1.create_window(380, 230, window=button1)
 
 # podsumowanie po zakończeniu
 
-label7 = tk.Label(root, text='',anchor="e")
-label7.config(font=('helvetica', 10, 'bold'),width=10,height=1)
-canvas1.create_window(270, 270, window=label7)
+label7 = tk.Label(root, text='',anchor="w")
+label7.config(font=('helvetica', 10, 'bold'),width=15,height=1)
+canvas1.create_window(350, 270, window=label7)
 
-label8 = tk.Label(root, text='',anchor="e")
-label8.config(font=('helvetica', 10, 'bold'),width=10,height=1)
-canvas1.create_window(270, 290, window=label8)
+label8 = tk.Label(root, text='',anchor="w")
+label8.config(font=('helvetica', 10, 'bold'),width=15,height=1)
+canvas1.create_window(350, 290, window=label8)
 
-label9 = tk.Label(root, text='',anchor="e")
-label9.config(font=('helvetica', 10, 'bold'),width=30,height=1)
-canvas1.create_window(150, 270, window=label9)
+label9 = tk.Label(root, text='',anchor="w")
+label9.config(font=('helvetica', 10, 'bold'),width=15,height=1)
+canvas1.create_window(350, 310, window=label9)
 
 label10 = tk.Label(root, text='',anchor="e")
 label10.config(font=('helvetica', 10, 'bold'),width=30,height=1)
-canvas1.create_window(150, 290, window=label10)
+canvas1.create_window(150, 270, window=label10)
+
+label11 = tk.Label(root, text='',anchor="e")
+label11.config(font=('helvetica', 10, 'bold'),width=30,height=1)
+canvas1.create_window(150, 290, window=label11)
+
+label12 = tk.Label(root, text='',anchor="e")
+label12.config(font=('helvetica', 10, 'bold'),width=30,height=1)
+canvas1.create_window(150, 310, window=label12)
 
 root.mainloop()
