@@ -7,232 +7,279 @@ import shutil
 import tkinter as tk
 import winsound
 import regex as re
-from time import time
+import time
+from tkinter import ttk
 
-def run():    
-    global tekst,new_pdf,status, label7
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
 
-    # pobiera dane z okienek
-    tekst =     entry_state[0].get()
-    wym_rys =   entry_state[1].get()
-    wym_opis =  entry_state[2].get()
-    alt_name =  entry_state[3].get()
-    wym_alt =   entry_state[4].get()
+        # root window
+        row_c=14
+        row_height=25
+        cols=[350,100]
+        prop=cols[0]//cols[1]
 
-    # wsp cale/mm = 0,352 - do przeliczenia wymiarów na warotści przesunięć
-    wsp=0.352
+        root_width=sum(cols)
+        root_height=row_c*row_height
 
-    delta_rys=[int(float(i)/wsp) for i in wym_rys.split('x')]
-    delta_opis=[int(float(i)/wsp) for i in wym_opis.split('x')]
-    delta_alt=[int(float(i)/wsp) for i in wym_alt.split('x')]
+        # root = tk.Tk()
+        self.geometry('{}x{}'.format(root_width,root_height))
+        self.title('Oznacz pdfy "Do realizacji"')
+        self.resizable(0, 0)
 
-    # ***************tworzenie kopii struktury katalogów *******************
+        # configure the grid
+        self.columnconfigure(0, weight=prop)
+        self.columnconfigure(1, weight=1)
 
-    # defining the function to ignore the files
-    # if present in any folder
-    def ignore_files(dir, files):
-        return [f for f in files if os.path.isfile(os.path.join(dir, f))]
-    
-    # calling the shutil.copytree() method and
-    # passing the src,dst,and ignore parameter
+        self.create_widgets()
 
-    input_dir = os.getcwd()
-    output_dir = '{}\\{}'.format(input_dir,'_do realizacji')
+    def run(self):    
+        self.copy_folders()
+        self.count_files()
 
-    if not os.path.exists(output_dir):
-        shutil.copytree(input_dir,
-                        output_dir,
-                        ignore=ignore_files)
+        # pobiera dane z okienek
+        tekst =     self.entry_state[1].get()
+        wym_rys =   self.entry_state[3].get()
+        wym_opis =  self.entry_state[4].get()
+        alt_name =  self.entry_state[7].get()
+        wym_alt =   self.entry_state[8].get()
 
-    # ***************tworzenie kopii struktury katalogów *******************
+        # wsp cale/mm = 0,352 - do przeliczenia wymiarów na wartości przesunięć
+        wsp=0.352
 
-    # liczniki
-    pdf_c=0
-    files_c=0
+        delta_rys=[int(float(i)/wsp) for i in wym_rys.split('x')]
+        delta_opis=[int(float(i)/wsp) for i in wym_opis.split('x')]
+        delta_alt=[int(float(i)/wsp) for i in wym_alt.split('x')]
 
-    folder_path = os.getcwd()
-    output_folder = '{}\\_do realizacji'.format(input_dir)
+        # ustala labele do aktualizacji
+        self.done=self.entry_state[12]
+        self.done_time=self.entry_state[13]
+        self.all=self.entry_state[14]
 
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
+        self.done_text=self.texts_state[12]
+        self.done_time_text=self.texts_state[13]
+        self.all_text=self.texts_state[14]
 
-    def make_can(pdf_w,pdf_h):
-        global new_pdf
-        packet = io.BytesIO()
-        can = canvas.Canvas(packet, pagesize=(int(pdf_w),int(pdf_h)))
+        self.last=self.texts_state[15]
 
-        can.setFillColorRGB(255,0,0) #kolor czcionki
-        can.setFont("Helvetica", 12) #font i jego wielkość
-        can.drawString(pdf_w-cd_x,cd_y,tekst) # tekst i jego lokalizacja
-        
-        can.save()
-        packet.seek(0)
-        new_pdf = PdfReader(packet)
+        self.act_labs=[self.done,
+                  self.done_time,
+                  self.all,
+                  self.done_text,
+                  self.done_time_text,
+                  self.all_text,
+                  self.last]
 
-    start_time = time()
+        self.progressbar=self.entry_state[15]
 
-    for path,_,files in os.walk(folder_path):
-        if '_do realizacji' in path:continue
-        else:
-            for pdf_file in files:
-                files_c+=1
-                if pdf_file.endswith(".pdf"):
-                    pdf_c+=1
-                    pdf_reader = PdfReader(open('{}\\{}'.format(path, pdf_file), "rb"))
-                    pdf_w,pdf_h=pdf_reader.pages[0].mediabox[-2:]
+        # liczniki
+        self.pdf_c=0
 
-                    # odległości do prawego dolnego narożnika
-                    # w starszym pythonie .pages na pyć Numpages?!
-                    # if pdf_reader.numPages==1:
-                    if len(pdf_reader.pages)==1:
-                        cd_x,cd_y=delta_rys #rysunki
-                        # podniesienie napisu dla mniejszych tabelek(nietypowych)
-                        if alt_name in pdf_file:
-                            cd_x,cd_y=delta_alt
-                    else:
-                        cd_x,cd_y=delta_opis # opisy techniczne
+        def make_can(pdf_w,pdf_h):
+            global new_pdf
+            packet = io.BytesIO()
+            can = canvas.Canvas(packet, pagesize=(int(pdf_w),int(pdf_h)))
 
-                    make_can(pdf_w,pdf_h)
+            can.setFillColorRGB(255,0,0) #kolor czcionki
+            can.setFont("Helvetica", 12) #font i jego wielkość
+            can.drawString(pdf_w-cd_x,cd_y,tekst) # tekst i jego lokalizacja
+            
+            can.save()
+            packet.seek(0)
+            new_pdf = PdfReader(packet)
 
-                    pdf_merged = pdf_reader.pages[0]
-                    pdf_merged.merge_page(new_pdf.pages[0])
-                    pdf_merged.compress_content_streams()
-                    pdf_writer = PdfWriter()
-                    
-                    for i in range(len(pdf_reader.pages)):
-                        if i == 0:
-                            pdf_writer.add_page(pdf_merged)
+        self.start_time = time.time()
+
+        for path,_,files in os.walk(self.input_dir):
+            if '_do realizacji' in path:continue
+            else:
+                for pdf_file in files:
+                    if pdf_file.endswith(".pdf"):
+                        self.pdf_c+=1
+                        pdf_reader = PdfReader(open('{}\\{}'.format(path, pdf_file), "rb"))
+                        pdf_w,pdf_h=pdf_reader.pages[0].mediabox[-2:]
+
+                        # odległości do prawego dolnego narożnika
+                        if len(pdf_reader.pages)==1:
+                            cd_x,cd_y=delta_rys #rysunki
+                            # podniesienie napisu dla mniejszych tabelek(nietypowych)
+                            if alt_name in pdf_file:
+                                cd_x,cd_y=delta_alt
                         else:
-                            pdf_writer.add_page(pdf_reader.pages[i])
+                            cd_x,cd_y=delta_opis # opisy techniczne
 
-                    # ściażka dostępu do nowej lokalizacji pliku
-                    if var.get()==1:
-                        pdf_file=remove_rew(pdf_file)
-                    n_file='{}\\{}'.format(path, pdf_file)[len(folder_path):]
-                    n_file='{}\\_do realizacji\\{}'.format(folder_path,n_file)
+                        make_can(pdf_w,pdf_h)
 
-                    with open(n_file, "wb") as output_file:
-                        pdf_writer.write(output_file)
-    end_time = time()
-    update_status(pdf_c,files_c-pdf_c, start_time,end_time)
+                        pdf_merged = pdf_reader.pages[0]
+                        pdf_merged.merge_page(new_pdf.pages[0])
+                        pdf_merged.compress_content_streams()
+                        pdf_writer = PdfWriter()
+                        
+                        for i in range(len(pdf_reader.pages)):
+                            if i == 0:
+                                pdf_writer.add_page(pdf_merged)
+                            else:
+                                pdf_writer.add_page(pdf_reader.pages[i])
 
-def speed_test(delta_time):
+                        # ściażka dostępu do nowej lokalizacji pliku
+                        if self.var.get()==1:
+                            pdf_file=self.remove_rew(pdf_file)
+                        n_file='{}\\{}'.format(path, pdf_file)[len(self.input_dir):]
+                        n_file='{}\\_do realizacji{}'.format(self.input_dir,n_file)
 
-    if delta_time > 60:
-        minutes, seconds = delta_time // 60, delta_time % 60
-        return f"{int(minutes)}min {int(seconds)}s"
-    else:
-        return f"{int(delta_time)}s"
+                        with open(n_file, "wb") as output_file:
+                            pdf_writer.write(output_file)
 
+                        self.update_status(time.time())
+                        # time.sleep(3)
 
-def update_status(done, inn_2,start_time,end_time) :
-    delta_time = round(end_time - start_time, 3)
-    # wpisuje dane po zakończeniu tworzenia pdfów
-    label7.config(text='{}' .format(done),bg='light green')
-    label7.update_idletasks()
+        self.update_last()
 
-    label8.config(text='{} ({}s/pdf)' .format(speed_test(delta_time),int(delta_time/done)),bg='light green')
-    label8.update_idletasks()
+    def create_widgets(self):
+        #set labels
+        texts=['',
+            'Tekst:',
+            'Odległość od prawego dolnego narożnika:',
+            'rysunków [mm x mm]:',
+            'opisów [mm x mm]:',
+            '',
+            'Alternatywne przesunięcie:',
+            'nazwa pliku zawiera:',
+            'odległość [mm x mm]:',
+            '',
+            'Usuń opis rewizji z nazwy pliku',
+            '',
+            '',
+            '',
+            '',
+            '']
+        self.texts_state={}
 
-    label9.config(text=inn_2,bg='light green')
-    label9.update_idletasks()
+        for i,j in enumerate(texts):
+            label = ttk.Label(self, text=j,font=('helvetica', 10))
+            label.grid(column=0, row=i, sticky=tk.E, padx=5)
+            self.texts_state[i]=label
 
-    label10.config(text='Oznaczone pdfy:',bg='light green')
-    label10.update_idletasks()
+        # set entry
+        entrys=['',
+                "DO REALIZACJI rew.000",
+                '',
+                '55x8',
+                '75x280',
+                '',
+                '',
+                'KPEM',
+                '55x80',
+                '',
+                'checkbox',
+                'button',
+                '',
+                '',
+                '',
+                'progresbar']
+        self.entry_state={}
 
-    label11.config(text='W czasie:',bg='light green')
-    label11.update_idletasks()
+        for i,j in enumerate(entrys):
+            if j=='':
+                entry = ttk.Label(self, text=j,font=('helvetica', 10))
+                entry.grid(column=0, row=i, sticky=tk.E, padx=5)
+            elif j=='checkbox':
+                self.var = tk.IntVar(value=1)
+                entry=tk.Checkbutton(self,variable=self.var)
+            elif j=='button':
+                entry=tk.Button(text='Oznacz pdfy', command=self.run, bg='brown', fg='white', font=('helvetica', 10, 'bold'),width=16)
+            elif j=='progresbar':
+                entry=ttk.Progressbar(self, orient='horizontal',mode='determinate', length=140)
+            else:
+                entry = ttk.Entry(self,textvariable=j,width=22)
+                entry.insert(-1, j)
 
-    label12.config(text='Inne pliki w podkatalogach:',bg='light green')
-    label12.update_idletasks()
+            entry.grid(column=1, row=i, sticky=tk.W, padx=5)
+            self.entry_state[i]=entry
+        
+    def copy_folders(self):
 
-    try:
-        winsound.PlaySound("beep.wav", winsound.SND_FILENAME)
-    except:
-        pass
+         # ***************tworzenie kopii struktury katalogów *******************
 
-def remove_rew(pdf_file):
-    reg_pat='''(.+)([_.]rew.\d{3})(.pdf)'''
-    x_match=re.match(reg_pat,pdf_file)
-    if x_match:
-        new_name = pdf_file.replace(x_match.group(2),'')
-        return new_name
-    return pdf_file
+        # defining the function to ignore the files
+        # if present in any folder
+        def ignore_files(dir, files):
+            return [f for f in files if os.path.isfile(os.path.join(dir, f))]
+        
+        # calling the shutil.copytree() method and
+        # passing the src,dst,and ignore parameter
 
-root= tk.Tk()
+        self.input_dir = os.getcwd()
+        self.output_dir = '{}\\{}'.format(self.input_dir,'_do realizacji')
 
-canvas1 = tk.Canvas(root, width=450, height=330, relief='raised')
-canvas1.pack()
+        if not os.path.exists(self.output_dir):
+            shutil.copytree(self.input_dir,
+                            self.output_dir,
+                            ignore=ignore_files)
 
-label1 = tk.Label(root, text='Oznacz pdfy "Do realizacji"',anchor="c")
-label1.config(font=('helvetica', 10, 'bold'),width=55,height=1)
-canvas1.create_window(200, 25, window=label1)
+        # ***************tworzenie kopii struktury katalogów *******************
 
-# Wprowadzenie tekstu
-opisy=['Tekst:','Odległość od prawego dolnego narożnika:',
-       'rysunków [mm x mm]:',
-       'opisów [mm x mm]:',
-       '',
-       'Alternatywne przesunięcie:',
-       'nazwa pliku zawiera:',
-       'odległość [mm x mm]:',
-       '',
-       'Usuń opis rewizji z nazwy pliku']
+        if not os.path.exists(self.output_dir):
+            os.makedirs(self.output_dir)
+    
+    def count_files(self):
+        self.files_c=0
+        self.all_pdf_c=0
+        for path,_,files in os.walk(self.input_dir):
+            if '_do realizacji' in path:continue
+            else:
+                for file in files:
+                    if file.endswith(".pdf"):
+                        self.all_pdf_c+=1
+                    self.files_c+=1
 
-for i,j in enumerate(opisy):
-    label = tk.Label(root, text=j,anchor="e")
-    label.config(font=('helvetica', 10),width=30,height=1)
-    canvas1.create_window(150, 50+i*20, window=label)
+    def speed_test(self,delta_time):
 
-# Wprowadzenie danych
+        if delta_time > 60:
+            minutes, seconds = delta_time // 60, delta_time % 60
+            return f"{int(minutes)}min {int(seconds)}s"
+        else:
+            return f"{int(delta_time)}s"
 
-wejscia=["DO REALIZACJI rew.000",
-         '56x7.5',
-         '74x282',
-         'KPEM',
-         '56x81']
-entry_state={}
+    def update_status(self,end_time):
+        delta_time = round(end_time - self.start_time, 3)
+        # wypisuje dane o ilości plików i czasie
 
-for i,j in enumerate(wejscia):
-    tmp=tk.Entry(root)
-    tmp.insert(-1, j)
-    canvas1.create_window(350, 50+20*(i+int(i>0)+2*int(i>2)), width=130, window=tmp)
-    entry_state[i]=tmp
+        self.done.config(text='{}/{}'.format(self.pdf_c,self.all_pdf_c))
+        self.done_time.config(text='{} ({}s/pdf)'.format(self.speed_test(delta_time),int(delta_time/self.pdf_c)))
+        self.all.config(text=str(self.files_c-self.all_pdf_c))
+        self.done_text.config(text='Oznaczone pdfy:')
+        self.done_time_text.config(text='W czasie:')
+        self.all_text.config(text='Inne pliki w podkatalogach:')
+        self.last.config(text='Pozostało ok. {}'.format(self.speed_test((self.all_pdf_c-self.pdf_c)*(delta_time/self.pdf_c))))
+        self.progressbar['value']=int(100*(self.pdf_c/self.all_pdf_c))
 
-# Dodaje checkbox do usuwania rew.z nazwy pliku
-var = tk.IntVar(value=1)
-cbox1=tk.Checkbutton(root,  variable=var)
-canvas1.create_window(300, 230, window=cbox1)
+        for i in self.act_labs:
+            i.update_idletasks()
 
-# Wprowadzenie przycisku
-   
-button1 = tk.Button(text='Oznacz pdfy', command=run, bg='brown', fg='white', font=('helvetica', 9, 'bold'))
-canvas1.create_window(380, 230, window=button1)
+    def update_last(self):
+        self.update_status(time.time())
 
-# podsumowanie po zakończeniu
+        for i in self.act_labs:
+            i.config(background='light green', font=('helvetica', 10, 'bold'))
+            i.update_idletasks()
+        self.last.config(text='',background='')
+        self.progressbar['value']=0
 
-label7 = tk.Label(root, text='',anchor="w")
-label7.config(font=('helvetica', 10, 'bold'),width=15,height=1)
-canvas1.create_window(350, 270, window=label7)
+        try:
+            winsound.PlaySound("beep.wav", winsound.SND_FILENAME)
+        except:
+            pass
 
-label8 = tk.Label(root, text='',anchor="w")
-label8.config(font=('helvetica', 10, 'bold'),width=15,height=1)
-canvas1.create_window(350, 290, window=label8)
+    def remove_rew(self,pdf_file):
+        reg_pat='''(.+)([_.]rew.\d{3})(.pdf)'''
+        x_match=re.match(reg_pat,pdf_file)
+        if x_match:
+            new_name = pdf_file.replace(x_match.group(2),'')
+            return new_name
+        return pdf_file
 
-label9 = tk.Label(root, text='',anchor="w")
-label9.config(font=('helvetica', 10, 'bold'),width=15,height=1)
-canvas1.create_window(350, 310, window=label9)
-
-label10 = tk.Label(root, text='',anchor="e")
-label10.config(font=('helvetica', 10, 'bold'),width=30,height=1)
-canvas1.create_window(150, 270, window=label10)
-
-label11 = tk.Label(root, text='',anchor="e")
-label11.config(font=('helvetica', 10, 'bold'),width=30,height=1)
-canvas1.create_window(150, 290, window=label11)
-
-label12 = tk.Label(root, text='',anchor="e")
-label12.config(font=('helvetica', 10, 'bold'),width=30,height=1)
-canvas1.create_window(150, 310, window=label12)
-
-root.mainloop()
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
