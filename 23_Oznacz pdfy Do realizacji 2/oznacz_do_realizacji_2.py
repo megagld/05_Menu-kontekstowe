@@ -27,7 +27,7 @@ class App(tk.Tk):
         self.geometry('{}x{}'.format(root_width,root_height))
         self.title('Oznacz pdfy "Do realizacji"')
         self.resizable(0, 0)
-
+         
         # configure the grid
         self.columnconfigure(0, weight=prop)
         self.columnconfigure(1, weight=1)
