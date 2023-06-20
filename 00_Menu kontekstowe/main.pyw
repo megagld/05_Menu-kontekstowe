@@ -92,6 +92,7 @@ def draw_win():
 
 scr_loc=os.path.dirname(__file__)
 
+update_sc_list()
 get_sc_states()
 
 master = Tk()
