@@ -25,4 +25,4 @@ for k in scripts_list:
 scripts_states={k:v for k,v in scripts_states.items() if k in scripts_list}
 
 with open('{}\\{}'.format(input_dir,'scripts_states.json'), 'w') as fp:
-    json.dump(scripts_states, fp)
+     json.dump(scripts_states, fp)
