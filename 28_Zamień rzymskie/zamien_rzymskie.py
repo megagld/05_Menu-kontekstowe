@@ -4,9 +4,9 @@ import regex as re
 import pymsgbox
 
 input_dir = os.getcwd()
+ct=0
 
 reg_pat='''.+(segment|Segment)( |_)([VIXvix, ]*).+(pdf|dwg)'''
-ct=0
 
 for x in os.listdir(input_dir):
     x_match=re.match(reg_pat,x)
