@@ -35,7 +35,7 @@ for path,_,files in os.walk(input_dir):
                         rolki[height]+=width
 
 with open("{}\{}.txt".format(input_dir,'powierzchnie'), 'a', encoding="utf-8") as file:
-    file.write('\nSumaryczne powierzchnia: {} m2\n'.format(round(area_count/10**6,1)))
+    file.write('\nSuma powierzchni: {} m2\n'.format(round(area_count/10**6,1)))
     file.write('\nLiczba rysunków: {} szt.\n'.format(file_count))
     for i,j in sorted(rolki.items()):
         file.write('Rolka: {} mm : {} m\n'.format(int(i),round(j/1000,1)))
