@@ -18,15 +18,18 @@ input_pdf_dir = '{}\\{}'.format(input_dir,'_pdf')
 for x in os.listdir(input_pdf_dir):
     if not x.endswith('.pdf'):
         continue
-    # określenie obiektu (tomu)
-    tom=re.search('(\d{4,}_.*_M_)(.*?)(_.*)',x).group(2)
+    try:
+        # określenie obiektu (tomu)
+        tom=re.search('(\d{4,}_.*_M_)(.*?)(_.*)',x).group(2)
 
-    # szukanie katalogu
-    for i in tomy:
-        if tom in i:
-            pdf_from='{}\\{}\\{}'.format(input_dir,'_pdf',x)
-            pdf_to='{}\\{}\\{}'.format(input_dir,i,x)
-            shutil.move(pdf_from, pdf_to)
+        # szukanie katalogu
+        for i in tomy:
+            if tom in i:
+                pdf_from='{}\\{}\\{}'.format(input_dir,'_pdf',x)
+                pdf_to='{}\\{}\\{}'.format(input_dir,i,x)
+                shutil.move(pdf_from, pdf_to)
+    except:
+        pass
 
 # sprawdzenie czy wszystkie pdfy zostały przeniesione
 
