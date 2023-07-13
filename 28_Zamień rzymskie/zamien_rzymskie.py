@@ -19,3 +19,6 @@ for x in os.listdir(input_dir):
             ct += 1
 
 pymsgbox.alert(text='Zmieniono nazwy {} plików'.format(ct))
+
+
+#test
