@@ -1,4 +1,5 @@
-# donapisania -  dodać okienko tkinter
+# do napisania -  dodać okienko tkinter pobierające ścieżki dostępu, dodać porównanie dat zapisu i względnych lokalizacji zapisu
+
 import os
 
 dir_1='P:/0139_A2_Siedlce_Cicibor_VII/04_PW/02_PW_M/03_PDF'
